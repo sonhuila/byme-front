@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import {
-  Search, MapPin, Star, ChevronRight, Shield, Clock, ThumbsUp,
+  Search, MapPin, Star, ChevronRight, Shield, Clock, ThumbsUp, Wrench,
   Droplets, Zap, Hammer, Sparkles, KeyRound, Leaf, Wind, Truck,
   Paintbrush2, Bug, ArrowRight, CheckCircle2, Users, Briefcase, Award
 } from 'lucide-react';
@@ -232,10 +232,10 @@ export function Landing() {
               <Link
                 key={prof.id}
                 to={`/profesional/${prof.id}`}
-                className="group bg-white rounded-2xl border border-[#E5E7EB] hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+                className="group bg-white rounded-2xl border border-[#E5E7EB] hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                {/* Header */}
-                <div className="relative h-32 bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] overflow-hidden">
+                {/* Header banner */}
+                <div className="relative h-28 bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] rounded-t-2xl overflow-hidden">
                   <div className="absolute inset-0 opacity-20" style={{
                     backgroundImage: `url(${IMGS.service})`,
                     backgroundSize: 'cover',
@@ -254,20 +254,21 @@ export function Landing() {
                   </div>
                 </div>
 
-                <div className="p-5">
-                  <div className="flex items-start gap-3 -mt-10 mb-3">
-                    <img
-                      src={prof.photo}
-                      alt={prof.name}
-                      className="w-16 h-16 rounded-xl object-cover border-2 border-white shadow-md flex-shrink-0"
-                    />
-                    <div className="mt-8">
-                      <h3 className="font-semibold text-[#111827] group-hover:text-[#1E40AF] transition-colors">{prof.name}</h3>
-                      <p className="text-sm text-[#6B7280]">{prof.specialty}</p>
-                    </div>
-                  </div>
+                {/* Avatar centered, overlapping header */}
+                <div className="flex justify-center -mt-9 relative z-10 mb-3">
+                  <img
+                    src={prof.photo}
+                    alt={prof.name}
+                    className="w-[72px] h-[72px] rounded-xl object-cover border-4 border-white shadow-lg"
+                  />
+                </div>
 
-                  <div className="flex items-center gap-1 mb-3">
+                {/* Content */}
+                <div className="px-5 pb-5 text-center">
+                  <h3 className="font-semibold text-[#111827] group-hover:text-[#1E40AF] transition-colors">{prof.name}</h3>
+                  <p className="text-sm text-[#6B7280] mt-0.5">{prof.specialty}</p>
+
+                  <div className="flex items-center justify-center gap-1 mt-2 mb-3">
                     {[1,2,3,4,5].map(s => (
                       <Star key={s} className={`w-3.5 h-3.5 ${s <= Math.round(prof.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-[#D1D5DB] fill-[#D1D5DB]'}`} />
                     ))}
@@ -277,7 +278,7 @@ export function Landing() {
 
                   <p className="text-sm text-[#6B7280] line-clamp-2 mb-4">{prof.shortDescription}</p>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between pt-3 border-t border-[#F3F4F6]">
                     <div className="flex items-center gap-1 text-sm text-[#6B7280]">
                       <MapPin className="w-3.5 h-3.5" />
                       <span>{prof.distance}</span>
@@ -404,9 +405,4 @@ export function Landing() {
       </section>
     </div>
   );
-}
-
-// Keep Wrench import for safety
-function Wrench(props: any) {
-  return null;
 }

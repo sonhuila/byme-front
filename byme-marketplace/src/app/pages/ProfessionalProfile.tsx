@@ -19,7 +19,7 @@ export function ProfessionalProfile() {
   return (
     <div className="min-h-screen bg-[#F9FAFB] pt-16" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* Header banner */}
-      <div className="relative h-56 bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] overflow-hidden">
+      <div className="relative h-64 bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] overflow-hidden">
         <div className="absolute inset-0 opacity-20" style={{
           backgroundImage: `url(${IMGS.service})`,
           backgroundSize: 'cover',
@@ -48,14 +48,14 @@ export function ProfessionalProfile() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {/* Profile header card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] -mt-10 mb-6 p-5 sm:p-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] -mt-12 mb-6 p-6 sm:p-7">
           <div className="flex flex-col sm:flex-row items-start gap-5">
             {/* Photo */}
-            <div className="relative flex-shrink-0">
+            <div className="relative flex-shrink-0 -mt-16 sm:-mt-20">
               <img
                 src={prof.photo}
                 alt={prof.name}
-                className="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-lg"
+                className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-white shadow-xl"
               />
               <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white ${prof.available ? 'bg-[#10B981]' : 'bg-[#9CA3AF]'}`} />
             </div>

@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import {
-  Search, MapPin, Star, SlidersHorizontal, ChevronDown, X, Map,
+  Search, MapPin, Star, SlidersHorizontal, X, Map,
   List, Droplets, Zap, Paintbrush2, Hammer, Sparkles, KeyRound,
-  Leaf, Wind, Truck, Bug, Clock, Award, Filter
+  Leaf, Wind, Truck, Bug, Clock, Award
 } from 'lucide-react';
 import { professionals, categories } from '../data/mockData';
 import { MockMap } from '../components/MockMap';
@@ -50,44 +50,75 @@ export function SearchPage() {
   return (
     <div className="flex flex-col h-screen pt-16" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* Top search bar */}
-      <div className="bg-white border-b border-[#E5E7EB] px-4 py-3 flex-shrink-0">
-        <div className="max-w-7xl mx-auto flex items-center gap-3">
-          {/* Search */}
-          <div className="flex-1 flex items-center gap-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-3 py-2">
-            <Search className="w-4 h-4 text-[#9CA3AF] flex-shrink-0" />
+      <div className="bg-white border-b border-[#E5E7EB] px-4 py-4 flex-shrink-0 shadow-sm">
+        <div className="max-w-7xl mx-auto flex items-center gap-4">
+
+          {/* Search input */}
+          <div className="flex-1 flex items-center gap-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-2xl px-4 py-3 hover:border-[#1E40AF]/40 focus-within:border-[#1E40AF] focus-within:ring-2 focus-within:ring-[#1E40AF]/10 transition-all">
+            <Search className="w-5 h-5 text-[#9CA3AF] flex-shrink-0" />
             <input
               type="text"
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Buscar servicio o profesional..."
-              className="flex-1 bg-transparent outline-none text-[#111827] placeholder:text-[#9CA3AF] text-sm"
+              className="flex-1 bg-transparent outline-none text-[#111827] placeholder:text-[#9CA3AF]"
             />
-            {search && <button onClick={() => setSearch('')}><X className="w-3.5 h-3.5 text-[#9CA3AF]" /></button>}
+            {search && (
+              <button onClick={() => setSearch('')} className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-full bg-[#E5E7EB] hover:bg-[#D1D5DB] transition-colors">
+                <X className="w-3 h-3 text-[#6B7280]" />
+              </button>
+            )}
           </div>
 
-          {/* Location */}
-          <div className="hidden sm:flex items-center gap-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-3 py-2 min-w-40">
+          {/* Location pill */}
+          <div className="hidden md:flex items-center gap-2.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-2xl px-4 py-3 min-w-[180px] hover:border-[#1E40AF]/40 transition-all cursor-pointer">
             <MapPin className="w-4 h-4 text-[#1E40AF] flex-shrink-0" />
-            <span className="text-sm text-[#374151]">Popayán, Cauca</span>
+            <span className="text-sm text-[#374151] font-medium whitespace-nowrap">Popayán, Cauca</span>
           </div>
 
-          {/* Filter toggle */}
+          {/* Divider */}
+          <div className="hidden md:block w-px h-8 bg-[#E5E7EB]" />
+
+          {/* Filter button */}
           <button
             onClick={() => setFilterOpen(!filterOpen)}
-            className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium transition-all ${
-              filterOpen ? 'bg-[#1E40AF] text-white border-[#1E40AF]' : 'bg-white text-[#374151] border-[#E5E7EB] hover:bg-[#F9FAFB]'
+            className={`flex items-center gap-2 px-4 py-3 rounded-2xl border font-medium transition-all whitespace-nowrap ${
+              filterOpen
+                ? 'bg-[#1E40AF] text-white border-[#1E40AF] shadow-md'
+                : 'bg-white text-[#374151] border-[#E5E7EB] hover:bg-[#F9FAFB] hover:border-[#D1D5DB]'
             }`}
           >
             <SlidersHorizontal className="w-4 h-4" />
-            <span className="hidden sm:inline">Filtros</span>
+            <span className="hidden sm:inline text-sm">Filtros</span>
+            {(minRating > 0 || maxDistance < 10 || availableOnly) && (
+              <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+            )}
           </button>
 
+          {/* Sort dropdown (desktop) */}
+          <div className="hidden lg:flex items-center gap-2 bg-white border border-[#E5E7EB] rounded-2xl px-4 py-3 hover:border-[#D1D5DB] transition-all">
+            <span className="text-sm text-[#9CA3AF] whitespace-nowrap">Ordenar:</span>
+            <select
+              value={sortBy}
+              onChange={e => setSortBy(e.target.value)}
+              className="bg-transparent outline-none text-sm font-medium text-[#374151] cursor-pointer"
+            >
+              {SORT_OPTIONS.map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+
           {/* Mobile view toggle */}
-          <div className="flex lg:hidden border border-[#E5E7EB] rounded-xl overflow-hidden">
-            <button onClick={() => setMobileView('list')} className={`px-3 py-2 ${mobileView === 'list' ? 'bg-[#1E40AF] text-white' : 'text-[#6B7280]'}`}>
+          <div className="flex lg:hidden border border-[#E5E7EB] rounded-2xl overflow-hidden">
+            <button
+              onClick={() => setMobileView('list')}
+              className={`px-3 py-3 transition-colors ${mobileView === 'list' ? 'bg-[#1E40AF] text-white' : 'text-[#6B7280] hover:bg-[#F9FAFB]'}`}
+            >
               <List className="w-4 h-4" />
             </button>
-            <button onClick={() => setMobileView('map')} className={`px-3 py-2 ${mobileView === 'map' ? 'bg-[#1E40AF] text-white' : 'text-[#6B7280]'}`}>
+            <button
+              onClick={() => setMobileView('map')}
+              className={`px-3 py-3 transition-colors ${mobileView === 'map' ? 'bg-[#1E40AF] text-white' : 'text-[#6B7280] hover:bg-[#F9FAFB]'}`}
+            >
               <Map className="w-4 h-4" />
             </button>
           </div>
